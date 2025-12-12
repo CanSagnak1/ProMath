@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gelişmiş matematiksel hesap makinesi - Bilimsel, matris, grafik ve algoritmik hesaplamalar">
+    <title>Advanced Mathematical Calculator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Math.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.2.1/math.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">
+                <span class="logo-icon">∑</span>
+                <span class="logo-text">MathPro Calculator</span>
+            </h1>
+            <div class="header-actions">
+                <button class="header-btn" id="historyBtn" title="Geçmiş">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </button>
+                <button class="header-btn" id="settingsBtn" title="Ayarlar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Calculator Card -->
+        <div class="calculator-card">
+            <!-- Mode Tabs -->
+            <div class="mode-tabs">
+                <button class="tab-btn active" data-mode="basic">Temel</button>
+                <button class="tab-btn" data-mode="scientific">Bilimsel</button>
+                <button class="tab-btn" data-mode="matrix">Matris</button>
+                <button class="tab-btn" data-mode="solver">Çözücü</button>
+                <button class="tab-btn" data-mode="converter">Dönüştürücü</button>
+            </div>
+
+            <!-- Display -->
+            <div class="display-container">
+                <div class="display-expression" id="expression">0</div>
+                <div class="display-result" id="result"></div>
+            </div>
+
+            <!-- Calculator Panels -->
+            <div class="calculator-panels">
+                <!-- Basic Mode Panel -->
+                <div class="panel active" id="basicPanel">
+                    <div class="button-grid basic-grid">
+                        <button class="btn btn-function" data-action="clear">C</button>
+                        <button class="btn btn-function" data-action="delete">⌫</button>
+                        <button class="btn btn-function" data-action="percent">%</button>
+                        <button class="btn btn-operator" data-value="/">÷</button>
+                        
+                        <button class="btn btn-number" data-value="7">7</button>
+                        <button class="btn btn-number" data-value="8">8</button>
+                        <button class="btn btn-number" data-value="9">9</button>
+                        <button class="btn btn-operator" data-value="*">×</button>
+                        
+                        <button class="btn btn-number" data-value="4">4</button>
+                        <button class="btn btn-number" data-value="5">5</button>
+                        <button class="btn btn-number" data-value="6">6</button>
+                        <button class="btn btn-operator" data-value="-">−</button>
+                        
+                        <button class="btn btn-number" data-value="1">1</button>
+                        <button class="btn btn-number" data-value="2">2</button>
+                        <button class="btn btn-number" data-value="3">3</button>
+                        <button class="btn btn-operator" data-value="+">+</button>
+                        
+                        <button class="btn btn-number" data-value="0">0</button>
+                        <button class="btn btn-number" data-value=".">.</button>
+                        <button class="btn btn-function" data-value="()">()</button>
+                        <button class="btn btn-equals" data-action="equals">=</button>
+                    </div>
+                </div>
+
+                <!-- Scientific Mode Panel -->
+                <div class="panel" id="scientificPanel">
+                    <div class="button-grid scientific-grid">
+                        <button class="btn btn-function" data-value="sin(">sin</button>
+                        <button class="btn btn-function" data-value="cos(">cos</button>
+                        <button class="btn btn-function" data-value="tan(">tan</button>
+                        <button class="btn btn-function" data-action="deg-rad" id="angleMode">DEG</button>
+                        
+                        <button class="btn btn-function" data-value="asin(">sin⁻¹</button>
+                        <button class="btn btn-function" data-value="acos(">cos⁻¹</button>
+                        <button class="btn btn-function" data-value="atan(">tan⁻¹</button>
+                        <button class="btn btn-function" data-value="pi">π</button>
+                        
+                        <button class="btn btn-function" data-value="sqrt(">√</button>
+                        <button class="btn btn-function" data-value="^2">x²</button>
+                        <button class="btn btn-function" data-value="^">x^y</button>
+                        <button class="btn btn-function" data-value="exp(">eˣ</button>
+                        
+                        <button class="btn btn-function" data-value="log(">log</button>
+                        <button class="btn btn-function" data-value="ln(">ln</button>
+                        <button class="btn btn-function" data-value="!">n!</button>
+                        <button class="btn btn-function" data-value="e">e</button>
+                        
+                        <button class="btn btn-number" data-value="7">7</button>
+                        <button class="btn btn-number" data-value="8">8</button>
+                        <button class="btn btn-number" data-value="9">9</button>
+                        <button class="btn btn-operator" data-value="/">÷</button>
+                        
+                        <button class="btn btn-number" data-value="4">4</button>
+                        <button class="btn btn-number" data-value="5">5</button>
+                        <button class="btn btn-number" data-value="6">6</button>
+                        <button class="btn btn-operator" data-value="*">×</button>
+                        
+                        <button class="btn btn-number" data-value="1">1</button>
+                        <button class="btn btn-number" data-value="2">2</button>
+                        <button class="btn btn-number" data-value="3">3</button>
+                        <button class="btn btn-operator" data-value="-">−</button>
+                        
+                        <button class="btn btn-number" data-value="0">0</button>
+                        <button class="btn btn-number" data-value=".">.</button>
+                        <button class="btn btn-function" data-value="()">()</button>
+                        <button class="btn btn-operator" data-value="+">+</button>
+                        
+                        <button class="btn btn-function" data-action="clear">C</button>
+                        <button class="btn btn-function" data-action="delete">⌫</button>
+                        <button class="btn btn-function" data-action="percent">%</button>
+                        <button class="btn btn-equals" data-action="equals">=</button>
+                    </div>
+                </div>
+
+                <!-- Matrix Mode Panel -->
+                <div class="panel" id="matrixPanel">
+                    <div class="matrix-controls">
+                        <h3>Matris İşlemleri</h3>
+                        <div class="matrix-input-section">
+                            <label>Matris A (örn: [[1,2],[3,4]]):</label>
+                            <input type="text" id="matrixA" class="matrix-input" placeholder="[[1, 2], [3, 4]]">
+                            
+                            <label>Matris B (isteğe bağlı):</label>
+                            <input type="text" id="matrixB" class="matrix-input" placeholder="[[5, 6], [7, 8]]">
+                        </div>
+                        
+                        <div class="matrix-operations">
+                            <button class="btn btn-function" data-matrix-op="determinant">Determinant</button>
+                            <button class="btn btn-function" data-matrix-op="inverse">Ters Matris</button>
+                            <button class="btn btn-function" data-matrix-op="transpose">Transpose</button>
+                            <button class="btn btn-function" data-matrix-op="add">A + B</button>
+                            <button class="btn btn-function" data-matrix-op="subtract">A - B</button>
+                            <button class="btn btn-function" data-matrix-op="multiply">A × B</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solver Mode Panel -->
+                <div class="panel" id="solverPanel">
+                    <div class="solver-controls">
+                        <h3>Denklem Çözücü</h3>
+                        <div class="solver-types">
+                            <button class="solver-type-btn active" data-solver="linear">Doğrusal</button>
+                            <button class="solver-type-btn" data-solver="quadratic">İkinci Derece</button>
+                            <button class="solver-type-btn" data-solver="derivative">Türev</button>
+                        </div>
+                        
+                        <div class="solver-input-section" id="linearSolver">
+                            <label>Denklem (örn: 2*x + 5 = 15):</label>
+                            <input type="text" id="linearEq" class="solver-input" placeholder="2*x + 5 = 15">
+                            <button class="btn btn-equals" data-action="solve-linear">Çöz</button>
+                        </div>
+                        
+                        <div class="solver-input-section hidden" id="quadraticSolver">
+                            <label>İkinci Derece Denklem (ax² + bx + c = 0):</label>
+                            <div class="quadratic-inputs">
+                                <input type="number" id="quadA" placeholder="a" class="quad-input">
+                                <input type="number" id="quadB" placeholder="b" class="quad-input">
+                                <input type="number" id="quadC" placeholder="c" class="quad-input">
+                            </div>
+                            <button class="btn btn-equals" data-action="solve-quadratic">Çöz</button>
+                        </div>
+                        
+                        <div class="solver-input-section hidden" id="derivativeSolver">
+                            <label>Fonksiyon (örn: x^2 + 2*x + 1):</label>
+                            <input type="text" id="derivativeFunc" class="solver-input" placeholder="x^2 + 2*x + 1">
+                            <button class="btn btn-equals" data-action="calculate-derivative">Türev Al</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Converter Mode Panel -->
+                <div class="panel" id="converterPanel">
+                    <div class="converter-controls">
+                        <h3>Birim Dönüştürücü</h3>
+                        <select id="unitType" class="unit-select">
+                            <option value="length">Uzunluk</option>
+                            <option value="mass">Kütle</option>
+                            <option value="temperature">Sıcaklık</option>
+                            <option value="time">Zaman</option>
+                        </select>
+                        
+                        <div class="converter-row">
+                            <div class="converter-input-group">
+                                <input type="number" id="fromValue" class="converter-input" placeholder="0">
+                                <select id="fromUnit" class="unit-select-small"></select>
+                            </div>
+                            <div class="converter-arrow">→</div>
+                            <div class="converter-input-group">
+                                <input type="number" id="toValue" class="converter-input" placeholder="0" readonly>
+                                <select id="toUnit" class="unit-select-small"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Sidebar -->
+    <div class="sidebar history-sidebar" id="historySidebar">
+        <div class="sidebar-header">
+            <h2>Geçmiş</h2>
+            <button class="close-btn" id="closeHistory">×</button>
+        </div>
+        <div class="sidebar-content" id="historyContent">
+            <p class="empty-message">Henüz hesaplama yok</p>
+        </div>
+        <button class="btn btn-function clear-history-btn" id="clearHistory">Geçmişi Temizle</button>
+    </div>
+
+    <!-- Settings Sidebar -->
+    <div class="sidebar settings-sidebar" id="settingsSidebar">
+        <div class="sidebar-header">
+            <h2>Ayarlar</h2>
+            <button class="close-btn" id="closeSettings">×</button>
+        </div>
+        <div class="sidebar-content">
+            <div class="setting-group">
+                <label>Hassasiyet (Ondalık Basamak)</label>
+                <input type="number" id="precisionSetting" min="0" max="15" value="10" class="setting-input">
+            </div>
+            <div class="setting-group">
+                <label>Açı Birimi</label>
+                <select id="angleUnitSetting" class="setting-select">
+                    <option value="deg">Derece (DEG)</option>
+                    <option value="rad">Radyan (RAD)</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="soundSetting" checked>
+                    Ses Efektleri
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
